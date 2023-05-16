@@ -22,13 +22,13 @@ right_eye_cascade = cv2.CascadeClassifier(
     r"haarcascade/haarcascade_righteye_2splits.xml")
 cap = cv2.VideoCapture(0)
 model = keras.models.load_model(
-    r"D:\workspace\DL\driver_drowsiness_system_using_CNN\drowiness_new7.h5")
+    r"drowiness_new2.h5")
 count = 0
 alarm_on = False
 alarm_sound = "data/alarm.mp3"
 status1 = ''
 status2 = ''
-# Khởi tạo biến tương ứng với việc tính toán FPS
+# Initialize the variable corresponding to the FPS calculation
 prev_frame_time = 0
 new_frame_time = 0
 
@@ -87,23 +87,20 @@ while True:
                         cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 1)
             count = 0
             alarm_on = False
-    # Tính FPS
+    # Caculate FPS
     new_frame_time = time.time()
     fps = 1 / (new_frame_time - prev_frame_time)
     prev_frame_time = new_frame_time
-    # Hiển thị giá trị FPS lên video stream
+    # Display FPS value on video stream
     cv2.putText(frame, f"FPS:{int(fps)}", (510, 30),
                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1, cv2.LINE_AA)
 
     cv2.imshow("Drowsiness Detector", frame)
 
     key = cv2.waitKey(1) & 0xFF
-    # Kiểm tra nếu người dùng nhấn phím "q" hoặc nút ESC, thoát khỏi vòng lặp while
+    # Check if user presses "q" key or ESC button, exit while loop
     if key == ord("q") or key == 27:
         break
 
 cap.release()
 cv2.destroyAllWindows()
-
-
-# %%

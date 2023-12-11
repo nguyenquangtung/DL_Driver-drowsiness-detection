@@ -5,7 +5,7 @@ This system is designed to detect driver drowsiness using Convolutional Neural N
 The implementation involves utilizing Python, OpenCV, and Keras (with TensorFlow) to construct a system capable of extracting facial features from the driver's face. By detecting the status of the driver's eyes (open or closed), the system can identify if the driver is falling asleep. If the eyes remain closed for a continuous period of 3 seconds, an alarm is triggered to capture the driver's attention and prevent any potential accidents.
 
 To achieve this, a CNN model is trained on a dataset that contains examples of both closed and open eyes. This trained model is then utilized by OpenCV to capture live video feed from the camera. Each frame from the video feed is passed through the CNN model for processing and classification, determining whether the eyes are open or closed in real-time.
-
+More info in: https://youtu.be/X8ZFH_fZsIo?si=v64a-kkypdOt_J2y 
 ## Setup
 
 To set the model up:<br />

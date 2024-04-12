@@ -6,7 +6,8 @@ The implementation involves utilizing Python, OpenCV, and Keras (with TensorFlow
 
 To achieve this, a CNN model is trained on a dataset that contains examples of both closed and open eyes. This trained model is then utilized by OpenCV to capture live video feed from the camera. Each frame from the video feed is passed through the CNN model for processing and classification, determining whether the eyes are open or closed in real-time.
 
-More info in: https://youtu.be/X8ZFH_fZsIo?si=v64a-kkypdOt_J2y 
+More info in: https://youtu.be/X8ZFH_fZsIo?si=v64a-kkypdOt_J2y
+
 ## Setup
 
 To set the model up:<br />

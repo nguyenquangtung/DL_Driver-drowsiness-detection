@@ -15,7 +15,7 @@ More info in: https://youtu.be/X8ZFH_fZsIo?si=v64a-kkypdOt_J2y
 pip install -r requirements.txt
 ```
 <br />
-<br />1) OpenCV<br /> 2) Keras<br /> 3) Numpy<br /> 4) Pandas<br /> 5) OS<br />
+<br />- OpenCV<br /> - Keras<br /> - Numpy<br /> - Pandas<br /> - OS<br />
 2- Download the Dataset from the link given below and edit the address in the notebook accordingly.<br />
 3- Optional: Run the Jupyter Notebook to train your model with other custom hyper-parameter 20.<br />
 4- Run detect_drowsiness.py file for main application (change the path model to your model or use my trained model) in line 20.<br />

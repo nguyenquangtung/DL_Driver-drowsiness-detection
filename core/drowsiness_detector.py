@@ -7,11 +7,6 @@ from playsound import playsound
 from threading import Thread
 
 
-def start_alarm(sound):
-    """Play the alarm sound"""
-    playsound(pj.ALARM_SOUND)
-
-
 class DrowsinessDetector:
     def __init__(self, detect_model, clf_model) -> None:
         self.detect_model = detect_model
@@ -77,12 +72,16 @@ class DrowsinessDetector:
                     break
         return frame
 
+    def start_alarm(self, sound):
+        """Play the alarm sound"""
+        playsound(sound)
+
     def detect_drosiness(self, frame):
         self.get_eye_status(frame)
         print(self.eye_status1)
         print(self.eye_status2)
 
-        if self.eye_status1 == 1 and self.eye_status2 == 1:
+        if self.eye_status1 == 2 and self.eye_status2 == 2:
             if not self.count_start:
                 self.start_time = time.time()
                 self.count_start = True
@@ -94,7 +93,7 @@ class DrowsinessDetector:
                 if not self.alarm_on:
                     self.alarm_on = True
                     # play the alarm sound in a new thread
-                    t = Thread(target=start_alarm, args=(pj.ALARM_SOUND))
+                    t = Thread(target=self.start_alarm, args=(pj.ALARM_SOUND,))
                     t.daemon = True
                     t.start()
                 cv2.putText(
@@ -102,9 +101,9 @@ class DrowsinessDetector:
                     "Drowsiness Alert!!!",
                     (100, 700),
                     cv2.FONT_HERSHEY_SIMPLEX,
-                    2,
-                    (0, 0, 255),
                     1,
+                    (0, 0, 255),
+                    2,
                 )
             else:
                 cv2.putText(
@@ -112,20 +111,20 @@ class DrowsinessDetector:
                     "Eyes Closed, time: " + str(round(self.time_close_eyes, 2)),
                     (10, 30),
                     cv2.FONT_HERSHEY_SIMPLEX,
-                    2,
-                    (0, 0, 255),
                     1,
+                    (0, 0, 255),
+                    2,
                 )
-
-        if self.eye_status1 == 0 or self.eye_status2 == 0:
+        else:
+            self.alarm_on = False
             cv2.putText(
                 frame,
                 "Eyes Open",
                 (10, 30),
                 cv2.FONT_HERSHEY_SIMPLEX,
-                2,
-                (0, 255, 0),
                 1,
+                (0, 255, 0),
+                2,
             )
             self.time_close_eyes = 0
             self.count_start = False

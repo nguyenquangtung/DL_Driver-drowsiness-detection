@@ -13,8 +13,8 @@ class ProjectConfig(BaseSettings):
     RED: tuple = (255, 0, 0)
     WHITE: tuple = (230, 230, 230)
 
-    TIME_THRESHOLD: int = 5
-    ALARM_SOUND: str = r"data/alarm.mp3"
+    TIME_THRESHOLD: int = 4
+    ALARM_SOUND: str = r"public\alarm.mp3"
 
     FACE_CASCADE_PATH: str = r"model\haarcascade\haarcascade_frontalface_default.xml"
     LEFT_EYE_CASCADE_PATH: str = r"model\haarcascade\haarcascade_lefteye_2splits.xml"

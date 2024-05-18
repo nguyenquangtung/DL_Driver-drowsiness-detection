@@ -10,27 +10,33 @@ More info in: https://youtu.be/X8ZFH_fZsIo?si=v64a-kkypdOt_J2y
 
 ## Setup
 
-To set the model up:<br />
-Pre-install all the required libraries <br />1) OpenCV<br /> 2) Keras<br /> 3) Numpy<br /> 4) Pandas<br /> 5) OS<br />
-Download the Dataset from the link given below and edit the address in the notebook accordingly.<br />
-Run the Jupyter Notebook and add the model name in detect_drowsiness.py file in line 20.<br />
+1- To set up the environment, pre-install all the required libraries by using this:
+```
+pip install -r requirements.txt
+```
+<br />- OpenCV<br /> - Keras<br /> - Numpy<br /> - Pandas<br /> - OS<br />
+<br />2- Download the Dataset from the link given below and edit the address in the notebook accordingly.<br />
+<br />3- Optional: Run the Jupyter Notebook to train your model with other custom hyper-parameter 20.<br />
+<br />4- Run detect_drowsiness.py file for main application (change the path model to your model or use my trained model) in line 20.<br />
 
 ## The Dataset
 
-The dataset which was used is a subnet of a dataset from(https://www.kaggle.com/datasets/dheerajperumandla/drowsiness-dataset)<br />
+The dataset that was used is a subnet of a dataset from(https://www.kaggle.com/datasets/dheerajperumandla/drowsiness-dataset)<br />
 it has 4 folder which are <br />1) Closed_eyes - having 726 pictures<br /> 2) Open_eyes - having 726 pictures<br /> 3) Yawn - having 725 pictures<br /> 4) no_yawn - having 723 pictures<br />
 
-<!-- ## The Convolution Neural Network
+## The Convolution Neural Network
 
-![CNN](https://user-images.githubusercontent.com/16632408/159187014-4bc4b70e-98d6-4313-873f-997ded2eff27.png)
+![image](https://github.com/nguyenquangtung/DL_Driver-drowsiness-detection/assets/59195029/9b89ad67-dfca-4f23-8b4b-b5058ed5075d)
+
 
 ## Accuracy
 
 We did 50 epochs, to get a good accuracy from the model i.e. 98% for training accuracy and 96% for validation accuracy.
-![Graph](https://user-images.githubusercontent.com/16632408/159187004-92a72662-ddfe-471d-8bd6-65a3593a70a1.png)
+![image](https://github.com/nguyenquangtung/DL_Driver-drowsiness-detection/assets/59195029/07efe230-00e5-478a-b96a-9f63d2e91ceb)
 
+
+<!-- 
 ## The Output
-
 1. Open Eyes<br />
    ![Open_eyes](https://user-images.githubusercontent.com/16632408/159187179-b557ab8e-fb8c-4408-850b-417893014f8c.png)
 2. Close Eyes<br />

@@ -99,7 +99,7 @@ class DrowsinessDetector:
                 cv2.putText(
                     frame,
                     "Drowsiness Alert!!!",
-                    (100, 700),
+                    (10, 30),
                     cv2.FONT_HERSHEY_SIMPLEX,
                     1,
                     (0, 0, 255),
@@ -116,7 +116,6 @@ class DrowsinessDetector:
                     2,
                 )
         else:
-            self.alarm_on = False
             cv2.putText(
                 frame,
                 "Eyes Open",
@@ -126,6 +125,8 @@ class DrowsinessDetector:
                 (0, 255, 0),
                 2,
             )
+
+            self.alarm_on = False
             self.time_close_eyes = 0
             self.count_start = False
         return frame

@@ -19,6 +19,7 @@ class ProjectConfig(BaseSettings):
     FACE_CASCADE_PATH: str = r"model\haarcascade\haarcascade_frontalface_default.xml"
     LEFT_EYE_CASCADE_PATH: str = r"model\haarcascade\haarcascade_lefteye_2splits.xml"
     RIGHT_EYE_CASCADE_PATH: str = r"model\haarcascade\haarcascade_righteye_2splits.xml"
+    YOLO_MODEL_PATH: str = r"model\yolo_model.pt"
 
     MODEL_PATH1: str = r"model\CNN_model.h5"
 

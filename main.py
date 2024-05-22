@@ -10,7 +10,7 @@ cap = cv2.VideoCapture(0)
 model = keras.models.load_model(pj.MODEL_PATH1)
 alarm_on = False
 show_fps = 1
-detector = drowsiness_detector.DrowsinessDetector("cascade", model)
+detector = drowsiness_detector.DrowsinessDetector("yolo", model)
 
 if show_fps:
     num_frames = 0

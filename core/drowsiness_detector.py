@@ -5,6 +5,7 @@ import time
 import numpy as np
 from playsound import playsound
 from threading import Thread
+from ultralytics import YOLO
 
 
 class DrowsinessDetector:
@@ -23,6 +24,7 @@ class DrowsinessDetector:
         self.face_cascade = None
         self.left_eye_cascade = None
         self.right_eye_cascade = None
+        self.yolo_model = None
         self.load_detect_model(detect_model)
 
     def load_detect_model(self, detect_model):
@@ -30,9 +32,11 @@ class DrowsinessDetector:
             self.face_cascade = cv2.CascadeClassifier(pj.FACE_CASCADE_PATH)
             self.left_eye_cascade = cv2.CascadeClassifier(pj.LEFT_EYE_CASCADE_PATH)
             self.right_eye_cascade = cv2.CascadeClassifier(pj.RIGHT_EYE_CASCADE_PATH)
+        if detect_model == "yolo":
+            self.yolo_model = YOLO(pj.YOLO_MODEL_PATH)
         self.load_model = True
 
-    def process_eye_frame(self, eye_frame):
+    def process_eye_frame_(self, eye_frame):
         processed_eye_frame = cv2.resize(eye_frame, (145, 145))
         processed_eye_frame = processed_eye_frame.astype("float") / 255.0
         processed_eye_frame = img_to_array(processed_eye_frame)
@@ -40,7 +44,7 @@ class DrowsinessDetector:
         return processed_eye_frame
 
     def get_eye_status(self, frame):
-        if self.load_model:
+        if self.load_model and self.detect_model == "cascade":
             framegray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             faces = self.face_cascade.detectMultiScale(framegray, 1.3, 5)
 
@@ -70,6 +74,9 @@ class DrowsinessDetector:
                     pred2 = self.clf_model.predict(self.process_eye_frame(eye2))
                     self.eye_status2 = np.argmax(pred2)
                     break
+        if self.load_model and self.detect_model == "yolo":
+            results = self.yolo_model.predict(frame, conf=0.6)
+            frame = results[0].plot()
         return frame
 
     def start_alarm(self, sound):

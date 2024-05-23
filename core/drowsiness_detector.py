@@ -6,6 +6,7 @@ import numpy as np
 from playsound import playsound
 from threading import Thread
 from ultralytics import YOLO
+from utils.func import *
 
 
 class DrowsinessDetector:
@@ -24,6 +25,7 @@ class DrowsinessDetector:
         self.face_cascade = None
         self.left_eye_cascade = None
         self.right_eye_cascade = None
+        self.both_eye_close = None
         self.yolo_model = None
         self.load_detect_model(detect_model)
 
@@ -36,7 +38,7 @@ class DrowsinessDetector:
             self.yolo_model = YOLO(pj.YOLO_MODEL_PATH)
         self.load_model = True
 
-    def process_eye_frame_(self, eye_frame):
+    def process_eye_frame(self, eye_frame):
         processed_eye_frame = cv2.resize(eye_frame, (145, 145))
         processed_eye_frame = processed_eye_frame.astype("float") / 255.0
         processed_eye_frame = img_to_array(processed_eye_frame)
@@ -75,8 +77,43 @@ class DrowsinessDetector:
                     self.eye_status2 = np.argmax(pred2)
                     break
         if self.load_model and self.detect_model == "yolo":
-            results = self.yolo_model.predict(frame, conf=0.6)
+            results = self.yolo_model.predict(frame, conf=0.45, verbose=False)
             frame = results[0].plot()
+            boxes, lst_cls = get_results(results)
+
+            boxes_heads = []
+            boxes_eyes = []
+
+            for i, (box, cls) in enumerate(zip(boxes, lst_cls)):
+                if cls == 1:
+                    boxes_heads.append(box)
+                else:
+                    boxes_eyes.append(box)
+
+                # Tìm bounding box label head có diện tích lớn nhất
+                largest_area = 0
+                largest_box_head = None
+                for box in boxes_heads:
+                    area = calculate_area(box)
+                    if area > largest_area:
+                        largest_area = area
+                        largest_box_head = box
+
+                # Xét các bounding box label 1 nằm trong bounding box label 0 có diện tích lớn nhất
+            self.both_eye_close = False
+            status = []
+            for box in boxes_eyes:
+                if is_inside(box, largest_box_head):
+                    eye_frame = crop_image(frame, box)
+                    processed_eye_frame = self.process_eye_frame(eye_frame)
+                    pred = self.clf_model.predict(processed_eye_frame)
+                    status.append(np.argmax(pred))
+            print(status)
+            if len(status) == 0:
+                pass
+            elif all(s == 2 for s in status):
+                self.both_eye_close = True
+
         return frame
 
     def start_alarm(self, sound):
@@ -84,11 +121,12 @@ class DrowsinessDetector:
         playsound(sound)
 
     def detect_drosiness(self, frame):
-        self.get_eye_status(frame)
+        frame = self.get_eye_status(frame)
         print(self.eye_status1)
         print(self.eye_status2)
+        print(self.both_eye_close)
 
-        if self.eye_status1 == 2 and self.eye_status2 == 2:
+        if (self.eye_status1 == 2 and self.eye_status2 == 2) or self.both_eye_close:
             if not self.count_start:
                 self.start_time = time.time()
                 self.count_start = True
